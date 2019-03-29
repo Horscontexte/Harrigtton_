@@ -11,77 +11,110 @@ let allHandsCombo = 1326;
 let trueAllHandsCombo = 1225;
 
 let global_percent = 0;
+let global_J1_Count = 0;
+let globat_J2_Count = 0;
+
+let global_J1_Call = 0;
+let global_J2_Call = 0;
+
+let global_Total_fold = 0;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// User Variable
-let myRange = [];
+// 1. Définir les variables au lancement du calcul :
+
+//      - Notre main
+//      - La range de vilain 1
+//      - La range de vilain 2
+//      - La range de vilain 3
+//      - La range de vilain 4
+//      - Le nombres de joueur à table
+//      - La taille de l'ante
+
+let myHand = ['T8o'];
 let player1Range = ['AA','KK','QQ','JJ','TT','99','88','77','AKo','AKs','AQo','AQs','AJs'];
 let player2Range = ['AA','KK','QQ','JJ','TT','99','88','77','66','55','AKo','AKs','AQo','AQs','AJs','AJo','ATo','ATs','A9s','A8s'];
+let player3range = [];
+let player4range = [];
+let playerAtTable = 4;
+let ante = 0.2;
 
+// 2. Définir le nombre de combo pour chaque range
 
-// Paire => 6 Combo
-// Dépareillées => 12 Combo
-// Assorties => 6 Combo
+//       - Paire => 6 Combo
+//       - Dépareillées => 12 Combo
+//       - Assorties => 4 Combo
 
-function calculateCallProbability(Count) {
-  var pStart = new Promise((resolve, reject) => {
-    call_probability = Count / trueAllHandsCombo;
-    call_percent = call_probability * 100;
-    global_percent += call_percent
-    resolve();
-  });
-  pStart.then(() => {
-      console.log(call_percent + ' % de call');
-  });
-}
-
-function calculateCombo(player) {
+async function calculateCombo(player) {
   let currentCount = 0;
-  var start = new Promise((resolve, reject) => {
-    player.forEach((element, index, array) => {
-      if(paire.includes(element)) {
-        currentCount += 6;
-      //  console.log(element + " est une paire!");
-      }
-      if(suited.includes(element)) {
-        currentCount += 6;
-      //  console.log(element + " est un suited!");
-      }
-      if(offSuited.includes(element)) {
-        currentCount += 12;
-      //  console.log(element + " est un offSuited!");
-      }
-      if (index === array.length -1) resolve();
-    });
+  await player.forEach((element, index, array) => {
+    console.log('INFO - Calcul des combinaisons en cours pour ' + element);
+    if(paire.includes(element)) {
+      currentCount += 6;
+    //  console.log(element + " est une paire!");
+    }
+    if(suited.includes(element)) {
+      currentCount += 6;
+    //  console.log(element + " est un suited!");
+    }
+    if(offSuited.includes(element)) {
+      currentCount += 12;
+    //  console.log(element + " est un offSuited!");
+    }
   });
-
-  start.then(() => {
-      console.log(currentCount + ' Combo pour la range :');
-      console.log(player);
-      calculateCallProbability(currentCount)
-  });
+  console.log('INFO - Fin du calcul => ' + currentCount + ' combinaisons');
+  if (player == player1Range) {
+    console.log('INFO - Joueur 1')
+    global_J1_Count = currentCount;
+  }
+  else if (player == player2Range) {
+    console.log('INFO - Joueur 2')
+    global_J2_Count = currentCount;
+  }
+  await calculateCallProbability(currentCount)
 }
 
-function calculatePlayer() {
-  var start = new Promise((resolve, reject) => {
-    calculateCombo(player1Range);
-    resolve();
-  });
-  start.then(() => {
-    calculateCombo(player2Range)
-  });
-};
+// 3. Calculer la probabilité de chaque range d'obtenir un call
 
-function launch() {
-  var start = new Promise((resolve, reject) => {
-    calculatePlayer();
-    resolve();
-  });
-  start.then(() => {
+async function calculateCallProbability(Count) {
+  call_probability = Count / trueAllHandsCombo;
+  call_percent = call_probability * 100;
+  global_percent += call_percent
+  if (Count == global_J1_Count) {
+    global_J1_Call = call_percent;
+  }
+  else if (Count == global_J2_Count) {
+    global_J2_Call = call_percent;
+  }
+  console.log('INFO - ' + call_percent + ' % de call');
+}
 
+// 4. A partir de la probabilité pour chaque range d'obtenir un call, déduire la probabilité d'obtenir un fold
 
-  });
-};
+async function calculateFoldProbability() {
 
-launch();
+  global_Total_fold = 100 - (global_J1_Call + global_J2_Call);
+  console.log('INFO - Probabilité de fold : ' + global_Total_fold + ' %')
+}
+// 5. Obtenir la probabilité de gagner de notre main VS chaque mains contenu dans chaques ranges des vilains
+
+// 6. Déduire à partir du résultat précedent le nombre de victoire
+
+// 7. Obtenir notre pourcentage de victoire
+
+//         - Somme des nombres de victoire divisé par le nombre total de combo contenu dans une range
+
+// 8. Calculer la probabilité d'obtenir un call et de gagner
+
+// 9. En déduire la probabilité d'obtenir un call et de perdre
+
+// 10. Réaliser un calcul d'esperance de gain à l'aide de toute les probabilités des différents evenemment possible obtenu
+
+async function asyncCall() {
+  await calculateCombo(player1Range);
+  await calculateCombo(player2Range);
+  console.log('INFO - Probabilité total de call : ' + global_percent + ' %')
+  await calculateFoldProbability();
+}
+
+asyncCall();
