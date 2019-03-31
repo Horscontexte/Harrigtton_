@@ -53,12 +53,13 @@ let currentHandCount = 0;
 //      - La taille de l'ante
 
 let myHand = 'Ts8h';
-let player1Range = ['ATs','AKo','AKs','AQo','AQs','AJs']; //'AA','KK','QQ','JJ','TT','99','88','77',
+let player1Range = ['AA','KK','QQ','JJ','TT','99','88','77','ATs','AKo','AKs','AQo','AQs','AJs'];
 let player2Range = ['AA','KK','QQ','JJ','TT','99','88','77','66','55','AKo','AKs','AQo','AQs','AJs','AJo','ATo','ATs','A9s','A8s'];
 let player3Range = ['AKs'];
 let player4Range = [];
 let playerAtTable = 9;
 let ante = 0.2;
+let tapis = 15;
 
 // 2. Définir le nombre de combo pour chaque range
 
@@ -129,7 +130,7 @@ async function calculateEquityForPlayer(player) {
       // H - heart
       // D - diamond
       // S - spade
-      // ch // cd // cs // hc // hd // hs // dc // dh // ds // sc // sh sd
+      // ch // cd // cs // hc // hd // hs // dc // dh // ds // sc // sh // sd
       console.log('INFO - Le combo est Offsuit - Il y a 12 combinaisons possible')
       let offSuited_combo;
       for (offSuited_combo = 0; offSuited_combo < 12; offSuited_combo++) {
@@ -586,7 +587,181 @@ async function calculateEquityForPlayer(player) {
          }
        }
     }
-    // else if ()
+    else if (lastChar == lastChar.toUpperCase()) {
+      console.log('INFO - Le combo est une Paire - Il y a 6 combinaisons possible');
+      // ch / cd / cs / hd / hs / ds //
+      let paire_combo;
+      for (paire_combo = 0; paire_combo < 6; paire_combo++) {
+        if (paire_combo == 0) {
+          let vilainHand = element[element.length -2] + 'c' + element.charAt(1) + 'h';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+        else if (paire_combo == 1) {
+          let vilainHand = element[element.length -2] + 'c' + element.charAt(1) + 'd';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+        else if (paire_combo == 2) {
+          let vilainHand = element[element.length -2] + 'c' + element.charAt(1) + 's';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+        else if (paire_combo == 3) {
+          let vilainHand = element[element.length -2] + 'h' + element.charAt(1) + 'd';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+        else if (paire_combo == 4) {
+          let vilainHand = element[element.length -2] + 'h' + element.charAt(1) + 's';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+        else if (paire_combo == 5) {
+          let vilainHand = element[element.length -2] + 'd' + element.charAt(1) + 's';
+          let heroHand1 = myHand.charAt(0) + myHand.charAt(1);
+          let heroHand2 = myHand.charAt(2) + myHand.charAt(3);
+          let vilainHand1 = vilainHand.charAt(0) + vilainHand.charAt(1);
+          let vilainHand2 = vilainHand.charAt(2) + vilainHand.charAt(3)
+          if (heroHand1 !== vilainHand1 && heroHand1 !== vilainHand2 && heroHand2 !== vilainHand1 && heroHand2 !== vilainHand2)  {
+            const player1Cards = CardGroup.fromString(myHand);
+            const player2Cards = CardGroup.fromString(vilainHand)
+
+            const resultEquity = OddsCalculator.calculate([player1Cards, player2Cards]);
+            console.log(`INFO - Notre main : - ${player1Cards} - ${resultEquity.equities[0].getEquity()}%`);
+            console.log(`INFO - Vilain : - ${player2Cards} - ${resultEquity.equities[1].getEquity()}%`);
+
+            let newResultEquity = resultEquity.equities[0].getEquity();
+
+            currentHandCount += 1;
+            newResultEquity = 1 * newResultEquity;
+            newResultEquity = newResultEquity / 100;
+            global_Victory_count += newResultEquity;
+
+          } else {
+             console.log('INFO - Confrontation impossible');
+             console.log('INFO - Notre main : ' + myHand + ' - Vilain : ' + vilainHand)
+             console.log('///')
+             currentHandCount += 1;
+           }
+        }
+      }
+    }
   });
 
   if (player == player1Range) {
@@ -621,13 +796,67 @@ async function asyncCall() {
   victory_J1_percent = victory_J1_percent * 100;
   let victory_J2_percent = (global_J2_Victory_Count / global_J2_Hand_Count);
   victory_J2_percent = victory_J2_percent * 100;
-  
+
   console.log('INFO - VS Joueur 1 - Victoire Total : ' + global_J1_Victory_Count + ' // Nombre de main total : ' + global_J1_Hand_Count);
   console.log('INFO - VS Joueur 2 - Victoire Total : ' + global_J2_Victory_Count + ' // Nombre de main total : ' + global_J2_Hand_Count);
   console.log('INFO - Nous avons ' + victory_J1_percent + ' % de victoire si le joueur 1 paye');
   console.log('INFO - Nous avons ' + victory_J2_percent + ' % de victoire si le joueur 2 paye');
   console.log('INFO - Probabilité total de call : ' + global_percent + ' %')
   console.log('INFO - Probabilité de fold : ' + global_Total_fold + ' %')
+
+
+
+  console.log('INFO - Probabilité de call de J1 : ' + global_J1_Call);
+  console.log('INFO - Probabilité de call de J2 : ' + global_J2_Call);
+
+  let loose_J1_percent = 100 - victory_J1_percent;
+  let loose_J2_percent = 100 - victory_J2_percent;
+  let loose_J1_int = loose_J1_percent / 100;
+  let loose_J2_int = loose_J2_percent / 100;
+  let win_J1_int = victory_J1_percent / 100;
+  let win_J2_int = victory_J2_percent / 100;
+
+  let j1_call_i_loose = global_J1_Call * loose_J1_int;
+  let j1_call_i_win = global_J1_Call * win_J1_int;
+
+  let j2_call_i_loose = global_J2_Call * loose_J2_int;
+  let j2_call_i_win = global_J2_Call * win_J2_int;
+
+  let j1_call_i_win_float = j1_call_i_win / 100;
+  let j1_call_i_loose_float =  j1_call_i_loose / 100;
+
+  let j2_call_i_loose_float = j2_call_i_loose / 100;
+  let j2_call_i_win_float = j2_call_i_win / 100;
+
+  let global_total_fold_float = global_Total_fold / 100;
+
+  let pot = playerAtTable * ante
+  pot += 1.5
+
+  let win_outcome = tapis + pot
+
+  let everyone_fold_ev = global_total_fold_float * pot;
+  let j1_call_i_win_ev = j1_call_i_win_float * win_outcome;
+  let j1_call_i_loose_ev = j1_call_i_loose_float * tapis;
+  let j2_call_i_win_ev = j2_call_i_win_float * win_outcome;
+  let j2_call_i_loose_ev = j2_call_i_loose_float * tapis;
+
+  console.log('INFO - Nous pushons au bouton ' + myHand + ' avec un tapis de ' + tapis + ' BB')
+  console.log('INFO - Probabilité total de call : ' + global_percent + ' %')
+  console.log('INFO - Probabilité de chaque évenemment : ');
+  console.log('Personne ne suit - ' + global_Total_fold + ' % - nous gagnons ' + pot + ' BB');
+  console.log('EV : ' + everyone_fold_ev + ' BB');
+  console.log('Joueur 1 call, nous perdons - ' + j1_call_i_loose + ' % - nous perdons ' + tapis + ' BB');
+  console.log('EV : -' + j1_call_i_loose_ev + ' BB');
+  console.log('Joueur 1 call, nous gagnons - ' + j1_call_i_win + ' % - nous gagnons ' + win_outcome + ' BB');
+  console.log('EV : ' + j2_call_i_win_ev + ' BB');
+  console.log('Joueur 2 call, nous perdons - ' + j2_call_i_loose + ' % - nous perdons ' + tapis + ' BB');
+  console.log('EV : -' + j2_call_i_loose_ev + ' BB');
+  console.log('Joueur 2 call, nous gagnons - ' + j2_call_i_win + ' % - nous gagnons ' + win_outcome + ' BB');
+  console.log('EV : ' + j2_call_i_win_ev + ' BB');
+
+
+
 }
 
 asyncCall();
